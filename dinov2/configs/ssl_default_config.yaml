@@ -59,18 +59,18 @@ ibot:
   head_nlayers: 3
   head_hidden_dim: 2048
 train:
-  batch_size_per_gpu: 64
+  batch_size_per_gpu: 2
   dataset_path: ImageNet:split=TRAIN
   output_dir: .
-  saveckp_freq: 20
+  saveckp_freq: 2
   seed: 0
-  num_workers: 10
+  num_workers: 1
   OFFICIAL_EPOCH_LENGTH: 1250
   cache_dataset: true
   centering: "centering" # or "sinkhorn_knopp"
 student:
-  arch: vit_large
-  patch_size: 16
+  arch: vit_base
+  patch_size: 8
   drop_path_rate: 0.3
   layerscale: 1.0e-05
   drop_path_uniform: true
@@ -112,7 +112,8 @@ crops:
   local_crops_scale:
   - 0.05
   - 0.32
-  global_crops_size: 224
-  local_crops_size: 96
+  global_crops_size: 64
+  local_crops_size: 48
 evaluation:
   eval_period_iterations: 12500
+ngpus: 1
