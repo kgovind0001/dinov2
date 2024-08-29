@@ -141,16 +141,14 @@ def save_teacher_model(model):
     logger = logging.getLogger("dinov2-teacher")
 
     teacher_model = model.teacher.backbone
-    print("TEACHER MODEL")
-    print(teacher_model)
+    # print("TEACHER MODEL")
+    # print(teacher_model)
     torch.save(teacher_model.state_dict(), "teacher_model_checkpoint.pth")
     logger.info(f"Saving teacher model state dict.... ")
 
 
 def do_train(cfg, model, resume=False):
     model.train()
-    save_teacher_model(model)
-    print(mark)
     inputs_dtype = torch.half
     fp16_scaler = model.fp16_scaler  # for mixed precision training
 
@@ -227,7 +225,7 @@ def do_train(cfg, model, resume=False):
         drop_last=True,
         collate_fn=collate_fn,
     )
-
+    logger.info(f"Got {len(data_loader.dataset)} images for training model")
     # training loop
 
     iteration = start_iter
@@ -301,10 +299,10 @@ def do_train(cfg, model, resume=False):
         metric_logger.update(total_loss=losses_reduced, **loss_dict_reduced)
 
         # checkpointing and testing
-        save_teacher_model(model)
         if cfg.evaluation.eval_period_iterations > 0 and (iteration + 1) % cfg.evaluation.eval_period_iterations == 0:
             do_test(cfg, model, f"training_{iteration}")
             torch.cuda.synchronize()
+            save_teacher_model(model)
         periodic_checkpointer.step(iteration)
 
         iteration = iteration + 1

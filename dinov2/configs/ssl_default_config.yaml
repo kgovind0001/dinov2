@@ -59,7 +59,7 @@ ibot:
   head_nlayers: 3
   head_hidden_dim: 2048
 train:
-  batch_size_per_gpu: 2
+  batch_size_per_gpu: 4
   dataset_path: ImageNet:split=TRAIN
   output_dir: .
   saveckp_freq: 2
@@ -76,6 +76,11 @@ student:
   drop_path_uniform: true
   pretrained_weights: ''
   ffn_layer: "mlp"
+  embed_dim: 768
+  in_chans: 3
+  depth: 12
+  num_heads: 12
+  mlp_ratio: 4.0
   block_chunks: 0
   qkv_bias: true
   proj_bias: true
@@ -115,5 +120,5 @@ crops:
   global_crops_size: 64
   local_crops_size: 48
 evaluation:
-  eval_period_iterations: 12500
+  eval_period_iterations: 5000
 ngpus: 1
