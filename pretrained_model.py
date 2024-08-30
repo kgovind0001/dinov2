@@ -20,6 +20,7 @@ model_config = {'img_size':64,
                 'num_register_tokens': 0, 
                 'interpolate_antialias': False, 
                 'interpolate_offset': 0.1}
+
 checkpoint_path = 'teacher_model_checkpoint.pth'
 model = vit_base(**model_config)
 print(model)
